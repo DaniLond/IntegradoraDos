@@ -3,16 +3,17 @@ package model;
 public class Product {
     private String name;
     private String description;
-    private Double price;
+    private double price;
     private int quantity;
+    private int timesBought;
     private Category category;
-    private int numBuy;
 
-    public Product(String name, String description, Double price, int quantity, Category category) {
+    public Product(String name, String description, double price, int quantity, Category category) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.quantity = quantity;
+        this.timesBought = 0;
         this.category = category;
     }
 
@@ -32,11 +33,11 @@ public class Product {
         this.description = description;
     }
 
-    public Double getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -48,19 +49,19 @@ public class Product {
         this.quantity = quantity;
     }
 
+    public int getTimesBought() {
+        return timesBought;
+    }
+
+    public void setTimesBought(int timesBought) {
+        this.timesBought = timesBought;
+    }
+
     public Category getCategory() {
         return category;
     }
 
     public void setCategory(Category category) {
         this.category = category;
-    }
-
-    public int getNumBuy() {
-        return numBuy;
-    }
-
-    public void setNumBuy(int numBuy) {
-        this.numBuy = numBuy;
     }
 }
