@@ -39,6 +39,7 @@ public class InventoryTest {
         inventory.addProduct(product4);
     }
 
+    //Agregar un producto correctamente
     @Test
     public void addNewProductTest() throws NegativeAmountException, DuplicatedProductException, IOException {
         setupStange1();
@@ -49,12 +50,38 @@ public class InventoryTest {
 
     }
 
+    //Agregar un product duplicado
     @Test
     public void addDuplicatedProductTest() throws NegativeAmountException, DuplicatedProductException, IOException {
         setupStange1();
         assertThrows(DuplicatedProductException.class , ()-> {
             inventory.addProduct(new Product("ProductA" , "xxxxA" , 10000, 6 , Category.BOOKS));
         });
+    }
+
+    @Test
+    void searchProductSuccessfullyByNameTest(){
+        assertTrue(false);
+    }
+
+    @Test
+    void searchProductSuccessfullyByPriceTest(){
+        assertTrue(false);
+    }
+
+    @Test
+    void searchProductSuccessfullyByCategoryTest(){
+        assertTrue(false);
+    }
+
+    @Test
+    void searchProductSuccessfullyByTimeBoughtTest(){
+        assertTrue(false);
+    }
+
+    @Test
+    void searchProductNotSuccessfuulyByNameTest(){
+        assertTrue(false);
     }
 
     @Test

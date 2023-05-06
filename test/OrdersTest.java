@@ -31,6 +31,26 @@ public class OrdersTest {
     }
 
     @Test
+    void searchOrderSuccessfullyByNameTest(){
+        assertTrue(false);
+    }
+
+    @Test
+    void searchOrdersSuccessfullyByPriceTest(){
+        assertTrue(false);
+    }
+
+    @Test
+    void searchOrdersSuccessfullyByDateTest(){
+        assertTrue(false);
+    }
+
+    @Test
+    void searchOrderSuccessfullyByBuyerTest(){
+        assertTrue(false);
+    }
+
+    @Test
     public void searchRangeNumericalValueTest(){
         assertTrue(false);
     }
