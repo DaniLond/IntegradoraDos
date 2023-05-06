@@ -16,9 +16,12 @@ public class OrderTest {
     }
 
     @Test
-    public void createNewOrderTest(){
+    public void createNewOrderTest() throws NegativeAmountException {
+        setupStange1();
         Order order = new Order("Isabella", 2000, LocalDate.now());
-
+        assertEquals("Isabella", order.getNameBuyer());
+        assertEquals(2000, order.getTotalPrice(), 0.001);
+        assertEquals(LocalDate.now(), order.getDate());
     }
 
 
