@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ProductTest {
 
 
+
     public void setupStange3() throws NegativeAmountException {
         Product product1= new Product("ProductA" , "xxxxA" , 10000, 6 , Category.BOOKS);
     }
