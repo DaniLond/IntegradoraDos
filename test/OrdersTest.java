@@ -30,6 +30,7 @@ public class OrdersTest {
        assertTrue(false);
     }
 
+    @Test
     public void searchRangeNumericalValueTest(){
         assertTrue(false);
     }
