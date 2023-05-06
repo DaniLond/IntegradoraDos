@@ -10,69 +10,47 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 public class ProductTest {
 
-    private Inventory inventory;
-
-    public void setupStange1() throws NegativeAmountException, DuplicatedProductException, IOException {
-        inventory= new Inventory();
+    
+    public void setupStange3() throws NegativeAmountException {
         Product product1= new Product("ProductA" , "xxxxA" , 10000, 6 , Category.BOOKS);
-        inventory.addProduct(product1);
     }
 
-    public void setupStange2() throws NegativeAmountException, DuplicatedProductException, IOException {
-        inventory= new Inventory();
-        Product product1= new Product("ProductB" , "xxxxB", 20000,  2 ,Category.TOYS_AND_GAMES);
-        Product product2= new Product("ProductC" , "xxxxc", 6000,  2 ,Category.FOOD_AND_DRINKS);
-        inventory.addProduct(product1);
-        inventory.addProduct(product2);
-    }
-
-    public void setupStange3() throws NegativeAmountException, DuplicatedProductException, IOException {
-        inventory= new Inventory();
-        Product product1= new Product("Calabozos y dragones" , "xxxxB", 20000,  3 ,Category.TOYS_AND_GAMES);
-        Product product2= new Product("Coco-Lemonade" , "xxxxC", 6000,  8 ,Category.FOOD_AND_DRINKS);
-        Product product3= new Product("El diario de Ana Frank" , "xxxxA", 30000,  6 ,Category.BOOKS);
-        Product product4= new Product("Agus" , "xxxxD", 1000,  5 ,Category.FOOD_AND_DRINKS);
-        inventory.addProduct(product1);
-        inventory.addProduct(product2);
-        inventory.addProduct(product3);
-        inventory.addProduct(product4);
-    }
-
+    //Validar que el precio no este negativo
     @Test
-    public void addNewProductTest() throws NegativeAmountException, DuplicatedProductException, IOException {
-        setupStange1();
-        Product product= new Product("Producto F" , "xxxxF" , 53000, 8 , Category.FOOD_AND_DRINKS);
-        inventory.addProduct(product);
-        assertEquals(inventory.getSize() , 2);
-        assertEquals(inventory.getProducts().get(1).getName() , "Producto F" );
+    public void validateProductPriceTest() throws NegativeAmountException {
+        setupStange3();
 
+        assertThrows(NegativeAmountException.class, ()->{
+            new Product("Product D" , "xxxD" , -50000, 2, Category.CLOTHES_AND_ACCESSORIES);
+        });
     }
 
+    //validar que la cantidad no este negativa
     @Test
-    public void addDuplicatedProductTest() throws NegativeAmountException, DuplicatedProductException, IOException {
-        setupStange1();
-        assertThrows(DuplicatedProductException.class , ()-> {
-            inventory.addProduct(new Product("ProductA" , "xxxxA" , 10000, 6 , Category.BOOKS));
+    public void valudateProductQuantityTest() throws NegativeAmountException {
+        setupStange3();
+        assertThrows(NegativeAmountException.class, ()->{
+            new Product("Product E" , "xxxE" , 50000, -3, Category.CLOTHES_AND_ACCESSORIES);
         });
     }
 
     @Test
-    public void removeProductSuccessfullyTest(){
+    public void increaseProductTest(){
         assertTrue(false);
     }
 
     @Test
-    public void removeNonexistentProductTest(){
+    public void increaseProductExceptionTest(){
         assertTrue(false);
     }
 
     @Test
-    public void searchRangeNumericalValueTest(){
+    public void decreaseProductTest(){
         assertTrue(false);
     }
 
     @Test
-    public void searchRangeStringTypeTest(){
+    public void decreaseProductExceptionTest(){
         assertTrue(false);
     }
 
