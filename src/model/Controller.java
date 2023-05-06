@@ -34,4 +34,30 @@ public class Controller {
         }
         return catString;
     }
+
+
+    public boolean addOrder(String nameBuyer, ArrayList<String> productNames) throws IOException {
+        Order order = new Order(nameBuyer);
+
+        for (String productName : productNames) {
+            Product product = inventory.searchProduct(productName);
+            if (product != null && product.getQuantity() > 0) {
+                order.addProduct(product);
+                product.setQuantity(product.getQuantity() - 1);
+                product.setTimesBought(product.getTimesBought() + 1);
+                order.setTotalPrice(order.getTotalPrice() + product.getPrice());
+            }
+        }
+
+        if (order.getProductArrayList().size() > 0) {
+            order.save();
+            inventory.save();
+            return true;
+        } else {
+            System.out.println("Some products are not available.");
+            return false;
+        }
+    }
+
 }
+

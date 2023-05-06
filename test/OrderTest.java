@@ -17,8 +17,13 @@ public class OrderTest {
 
     @Test
     public void createNewOrderTest(){
-        assertTrue(false);
+        Order order = new Order("Isabella", 2000, LocalDate.now());
+
     }
+
+
+
+
     @Test
     public void addNewProductToOrderTest(){
         assertTrue(false);

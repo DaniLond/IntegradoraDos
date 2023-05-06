@@ -6,6 +6,7 @@ import model.Category;
 import model.Controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -25,6 +26,8 @@ public class Main {
 
     public void showMainMenu() {
 
+        System.out.println("-----------MENU-------------");
+
         System.out.println("Welcome to MercadoLibre");
 
         boolean stopFlag = false;
@@ -33,6 +36,7 @@ public class Main {
 
             System.out.println("\nType an option");
             System.out.println("1. Register product");
+            System.out.println("2. Register order");
             System.out.println("0. Exit");
 
             int mainOption = reader.nextInt();
@@ -43,6 +47,7 @@ public class Main {
                     registerProduct();
                     break;
                 case 2:
+                    registerOrder();
 
                     break;
 
@@ -89,4 +94,28 @@ public class Main {
         }
 
     }
+
+    public void registerOrder() {
+        try {
+            System.out.println("Enter the buyer's name:");
+            reader.nextLine();
+            String nameBuyer = reader.nextLine();
+            System.out.println("Enter the number of products:");
+            int numProducts = reader.nextInt();
+            ArrayList<String> productNames = new ArrayList<>();
+            System.out.println("Enter the names of the products:");
+            reader.nextLine();
+            for (int i = 0; i < numProducts; i++) {
+                String productName = reader.nextLine();
+                productNames.add(productName);
+            }
+            if (controller.addOrder(nameBuyer, productNames)) {
+                System.out.println("Order registered successfully");
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+
+        }
+    }
+
 }

@@ -55,4 +55,10 @@ public class Order {
     public LocalDate getDate() {
         return date;
     }
+
+    public void addProduct(Product product) {
+    }
+
+    public void save() {
+    }
 }
