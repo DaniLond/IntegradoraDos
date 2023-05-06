@@ -5,6 +5,7 @@ import model.Inventory;
 import model.Product;
 import org.junit.jupiter.api.Test;
 
+import javax.swing.plaf.PanelUI;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -50,6 +51,23 @@ public class InventoryTest {
 
     }
 
+    //Verificar que el producto se este buscando correctamente
+    @Test
+    public void testSearchProduct() throws NegativeAmountException, IOException, DuplicatedProductException {
+        setupStange1();
+        Product product1 = new Product("Product1", "xxxx1", 20000,  2 ,Category.TOYS_AND_GAMES);
+        Product product2 = new Product("Product2", "xxxx2", 50000,  1 ,Category.TOYS_AND_GAMES);
+
+        inventory.addProduct(product1);
+        inventory.addProduct(product2);
+
+
+        assertEquals(product1, inventory.searchProduct("Product1"));
+        assertEquals(product2, inventory.searchProduct("Product2"));
+
+
+        assertNull(inventory.searchProduct("Product 4"));
+    }
     //Agregar un product duplicado
     @Test
     public void addDuplicatedProductTest() throws NegativeAmountException, DuplicatedProductException, IOException {

@@ -1,0 +1,1 @@
+[{"name":"Product1","description":"xxxx1","price":20000.0,"quantity":2,"timesBought":0,"category":"TOYS_AND_GAMES"},{"name":"ProductA","description":"xxxxA","price":10000.0,"quantity":6,"timesBought":0,"category":"BOOKS"},{"name":"Product2","description":"xxxx2","price":50000.0,"quantity":1,"timesBought":0,"category":"TOYS_AND_GAMES"}]

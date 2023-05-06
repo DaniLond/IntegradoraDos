@@ -65,9 +65,7 @@ public class Inventory {
     }
 
     public boolean addProduct(Product product) throws DuplicatedProductException, IOException {
-        Collections.sort(products, (a , b)->{
-            return a.getName().compareTo(b.getName());
-        });
+
         if (searchProduct(product.getName()) == null){
             products.add(product);
             save();
@@ -78,6 +76,9 @@ public class Inventory {
     }
 
     public Product searchProduct(String name){
+        Collections.sort(products, (a , b)->{
+            return a.getName().compareTo(b.getName());
+        });
         int puntoMedio=0;
         int inicio= 0;
         int fin= products.size()-1;
