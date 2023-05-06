@@ -1,6 +1,7 @@
 package model;
 
 import com.google.gson.Gson;
+import exceptions.DuplicatedProductException;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -21,6 +22,10 @@ public class Inventory {
 
     public void setProducts(ArrayList<Product> products) {
         this.products = products;
+    }
+
+    public int getSize(){
+        return products.size();
     }
 
     public void save() throws IOException{
@@ -47,6 +52,9 @@ public class Inventory {
             while ( (line= reader.readLine()) != null){
                 content += line + "\n";
             }
+            if (content.equals("")){
+                return;
+            }
             Gson gson= new Gson();
             Product[] array= gson.fromJson(content, Product[].class);
             Collections.addAll(products, array);
@@ -54,6 +62,38 @@ public class Inventory {
         }else {
             file.createNewFile();
         }
+    }
+
+    public boolean addProduct(Product product) throws DuplicatedProductException, IOException {
+        Collections.sort(products, (a , b)->{
+            return a.getName().compareTo(b.getName());
+        });
+        if (searchProduct(product.getName()) == null){
+            products.add(product);
+            save();
+            return true;
+        }else {
+            throw new DuplicatedProductException();
+        }
+    }
+
+    public Product searchProduct(String name){
+        int puntoMedio=0;
+        int inicio= 0;
+        int fin= products.size()-1;
+        while (inicio <= fin){
+            puntoMedio= (inicio + fin)/2;
+            Product value= products.get(puntoMedio);
+            if (value.getName().equals(name)){
+                return value;
+            }else if (value.getName().compareTo(name) < 0){
+                inicio = puntoMedio + 1;
+            }else {
+                fin= puntoMedio - 1;
+            }
+
+        }
+        return null;
     }
 
 }

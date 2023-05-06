@@ -1,5 +1,7 @@
 package model;
 
+import exceptions.NegativeAmountException;
+
 public class Product {
     private String name;
     private String description;
@@ -8,7 +10,13 @@ public class Product {
     private int timesBought;
     private Category category;
 
-    public Product(String name, String description, double price, int quantity, Category category) {
+    public Product(String name, String description, double price, int quantity, Category category) throws NegativeAmountException {
+        if (quantity < 0){
+            throw new NegativeAmountException();
+        }
+        if (price < 0){
+            throw new NegativeAmountException();
+        }
         this.name = name;
         this.description = description;
         this.price = price;
@@ -64,4 +72,5 @@ public class Product {
     public void setCategory(Category category) {
         this.category = category;
     }
+
 }

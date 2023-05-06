@@ -45,6 +45,9 @@ public class Orders {
             while ( (line= reader.readLine()) != null){
                 content += line + "\n";
             }
+            if (content.equals("")){
+                return;
+            }
             Gson gson= new Gson();
             Order[] array= gson.fromJson(content, Order[].class);
             Collections.addAll(orders, array);
