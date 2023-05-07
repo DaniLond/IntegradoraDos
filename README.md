@@ -32,6 +32,7 @@ ID commit: 5fa5671
    Completitud = 3.125
    
   Iteracion 4
+  
   ID commit: bcad525
   
    Densidad de errores-fallos = 0.517
@@ -39,4 +40,16 @@ ID commit: 5fa5671
    Confiabilidad = 0.483
    
    Completitud = 3.625
+   
+  Iteracion 5
+  
+  ID commit: 7698057
+  
+   Densidad de errores-fallos = 0.5
+   
+   Confiabilidad = 0.5
+   
+   Completitud = 3.75
+  
+   
   
