@@ -1,7 +1,6 @@
 package ui;
 
-import exceptions.DuplicatedProductException;
-import exceptions.NegativeAmountException;
+import exceptions.*;
 import model.Category;
 import model.Controller;
 
@@ -34,9 +33,10 @@ public class Main {
 
         while (!stopFlag) {
 
-            System.out.println("\nType an option");
+            System.out.println("Type an option");
             System.out.println("1. Register product");
             System.out.println("2. Register order");
+            System.out.println("3. Search for a product");
             System.out.println("0. Exit");
 
             int mainOption = reader.nextInt();
@@ -48,9 +48,10 @@ public class Main {
                     break;
                 case 2:
                     registerOrder();
-
                     break;
-
+                case 3:
+                    searchProduct();
+                    break;
                 case 0:
                     System.out.println("Thanks for using our system");
                     stopFlag = true;
@@ -115,6 +116,31 @@ public class Main {
         } catch (IOException e) {
             System.out.println(e.getMessage());
 
+        }
+    }
+
+    public void searchProduct() {
+        try {
+            System.out.println("By which variable you want to seatch for a product");
+            System.out.println("0. Name \n1. Price\n2. Category\n3. number of shares");
+            int option = reader.nextInt();
+            reader.nextLine();
+            if (option == 2){
+                System.out.println("These are the categories that exist");
+                System.out.println(controller.toStringCategory());
+            }
+            System.out.println("Write the value");
+            String value = reader.nextLine();
+            System.out.println(controller.searchProduct(value, option));
+        } catch (NonexistentIndexException e) {
+            System.out.println(e.getMessage());
+            e.getStackTrace();
+        } catch (NonexistentCategoryException e) {
+            System.out.println(e.getMessage());
+            e.getStackTrace();
+        } catch (EmptyListException e) {
+            System.out.println(e.getMessage());
+            e.getStackTrace();
         }
     }
 

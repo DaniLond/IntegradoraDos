@@ -1,7 +1,6 @@
 package model;
 
-import exceptions.DuplicatedProductException;
-import exceptions.NegativeAmountException;
+import exceptions.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -58,6 +57,18 @@ public class Controller {
             System.out.println("Some products are not available.");
             return false;
         }
+    }
+
+    public String searchProduct(String value, int option) throws NonexistentIndexException, NonexistentCategoryException, EmptyListException {
+        ArrayList<Product> products = inventory.searchProductByValue(value, option);
+        String product= "";
+        for (int i=0; i < products.size(); i++){
+            product += products.get(i).getName() +" - " + products.get(i).getPrice() + " - " + products.get(i).getQuantity() + " - " + products.get(i).getCategory() +" - " +  products.get(i).getTimesBought() + "\n";
+        }
+        if (product.equals("")){
+            return "There ir no product with this value";
+        }
+        return product;
     }
 
 }

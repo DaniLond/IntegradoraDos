@@ -2,6 +2,7 @@ package model;
 
 import com.google.gson.Gson;
 import exceptions.DuplicatedProductException;
+import exceptions.EmptyListException;
 import exceptions.NonexistentCategoryException;
 import exceptions.NonexistentIndexException;
 
@@ -166,9 +167,12 @@ public class Inventory {
         return -1;
     }
 
-    public ArrayList<Product> searchProductByValue(String value, int option) throws NonexistentIndexException, NonexistentCategoryException {
+    public ArrayList<Product> searchProductByValue(String value, int option) throws NonexistentIndexException, NonexistentCategoryException, EmptyListException {
         if (option > 3 || option < 0){
             throw new NonexistentIndexException();
+        }
+        if (products.isEmpty()){
+            throw new EmptyListException();
         }
         ArrayList<Product> list;
         if (option == 0){
@@ -188,7 +192,7 @@ public class Inventory {
             }
             // Encontrar el índice del último producto con el precio buscado
             int end= start;
-            while (Double.compare(products.get(start).getPrice(), priceD) == 0 && start >= 0){
+            while (start >= 0  && Double.compare(products.get(start).getPrice(), priceD) == 0){
                 start--;
             }
 
@@ -208,7 +212,7 @@ public class Inventory {
                 return list;
             }
             int end= start;
-            while (Integer.compare(products.get(start).getValueCategory(), category.valueCategory(category)) == 0 && start >= 0){
+            while (start >= 0 && Integer.compare(products.get(start).getValueCategory(), category.valueCategory(category)) == 0){
                 start--;
             }
             while (end < products.size() && Integer.compare(products.get(end).getValueCategory(), category.valueCategory(category)) == 0){
@@ -224,7 +228,7 @@ public class Inventory {
                 return list;
             }
             int end= start;
-            while (Integer.compare(products.get(start).getTimesBought(), timesBought) == 0 && start >= 0){
+            while (start >= 0 && Integer.compare(products.get(start).getTimesBought(), timesBought) == 0){
                 start--;
             }
 
@@ -236,6 +240,14 @@ public class Inventory {
         }
         list= new ArrayList<>();
         return list;
+    }
+
+    public String showProduct(){
+        String product= "";
+        for (int i=0; i < this.products.size(); i++){
+            product += this.products.get(i).getName() +" - " + this.products.get(i).getPrice() + " - " + this.products.get(i).getQuantity() + " - " + this.products.get(i).getCategory() +" - " +  this.products.get(i).getTimesBought() + "\n";
+        }
+        return product;
     }
 
 }
