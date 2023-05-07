@@ -1,5 +1,7 @@
 import exceptions.DuplicatedProductException;
 import exceptions.NegativeAmountException;
+import exceptions.NonexistentCategoryException;
+import exceptions.NonexistentIndexException;
 import model.Category;
 import model.Inventory;
 import model.Product;
@@ -93,7 +95,15 @@ public class InventoryTest {
     }
 
     @Test
-    void searchProductSuccessfullyByNameTest() throws NegativeAmountException, IOException, DuplicatedProductException {
+    void validateSearchOptionTest() throws NegativeAmountException, IOException, DuplicatedProductException {
+        setupStange1();
+        assertThrows(NonexistentIndexException.class, ()->{
+            inventory.searchProductByValue("ProductA" , 4);
+        });
+    }
+
+    @Test
+    void searchProductSuccessfullyByNameTest() throws NegativeAmountException, IOException, DuplicatedProductException, NonexistentIndexException, NonexistentCategoryException {
         setupStange4();
         String name= "ProductC";
         ArrayList<Product> wantedProducts= inventory.searchProductByValue(name , 0);
@@ -102,7 +112,7 @@ public class InventoryTest {
     }
 
     @Test
-    void searchProductSuccessfullyByPriceTest() throws NegativeAmountException, IOException, DuplicatedProductException {
+    void searchProductSuccessfullyByPriceTest() throws NegativeAmountException, IOException, DuplicatedProductException, NonexistentIndexException, NonexistentCategoryException {
         setupStange4();
         String price= "20000";
         ArrayList<Product> wantedProducts= inventory.searchProductByValue(price, 1);
@@ -112,7 +122,7 @@ public class InventoryTest {
     }
 
     @Test
-    void searchProductSuccessfullyByCategoryTest() throws NegativeAmountException, IOException, DuplicatedProductException {
+    void searchProductSuccessfullyByCategoryTest() throws NegativeAmountException, IOException, DuplicatedProductException, NonexistentIndexException, NonexistentCategoryException {
         setupStange4();
         String category= "3";
         ArrayList<Product> wantedProducts= inventory.searchProductByValue(category, 2);
@@ -124,7 +134,7 @@ public class InventoryTest {
     }
 
     @Test
-    void searchProductSuccessfullyByTimeBoughtTest() throws NegativeAmountException, IOException, DuplicatedProductException {
+    void searchProductSuccessfullyByTimeBoughtTest() throws NegativeAmountException, IOException, DuplicatedProductException, NonexistentIndexException, NonexistentCategoryException {
         setupStange4();
         String timesBought= "4";
         ArrayList<Product> wantedProducts= inventory.searchProductByValue(timesBought, 3);
@@ -136,8 +146,39 @@ public class InventoryTest {
     }
 
     @Test
-    void searchProductNotSuccessfuulyByNameTest(){
-        assertTrue(false);
+    void searchProductNotSuccessfuulyByNameTest() throws NegativeAmountException, IOException, DuplicatedProductException, NonexistentCategoryException, NonexistentIndexException {
+        setupStange4();
+        String name = "ProductF";
+        ArrayList<Product> wantedProducts= inventory.searchProductByValue(name , 0);
+        assertEquals( 0, wantedProducts.size());
+    }
+
+    @Test
+    void searchProductNotSuccessfuulyByPriceTest() throws NegativeAmountException, IOException, DuplicatedProductException, NonexistentCategoryException, NonexistentIndexException {
+        setupStange4();
+        String price = "100000";
+        ArrayList<Product> wantedProducts= inventory.searchProductByValue(price , 1);
+        assertEquals( 0, wantedProducts.size());
+    }
+
+    @Test
+    void searchProductNotSuccessfuulyByCategoryTest() throws NegativeAmountException, IOException, DuplicatedProductException, NonexistentCategoryException {
+        setupStange4();
+        String category = "9";
+        assertThrows(NonexistentCategoryException.class , ()-> {
+            inventory.searchProductByValue(category , 2);
+        });
+        assertThrows(NonexistentCategoryException.class , ()-> {
+            inventory.searchProductByValue("-1" , 2);
+        });
+    }
+
+    @Test
+    void searchProductNotSuccessfuulyByTimesBought() throws NegativeAmountException, IOException, DuplicatedProductException, NonexistentCategoryException, NonexistentIndexException {
+        setupStange4();
+        String timesBought = "6";
+        ArrayList<Product> wantedProducts= inventory.searchProductByValue(timesBought , 3);
+        assertEquals( 0, wantedProducts.size());
     }
 
     @Test

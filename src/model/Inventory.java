@@ -2,6 +2,8 @@ package model;
 
 import com.google.gson.Gson;
 import exceptions.DuplicatedProductException;
+import exceptions.NonexistentCategoryException;
+import exceptions.NonexistentIndexException;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -164,12 +166,18 @@ public class Inventory {
         return -1;
     }
 
-    public ArrayList<Product> searchProductByValue(String value, int option){
+    public ArrayList<Product> searchProductByValue(String value, int option) throws NonexistentIndexException, NonexistentCategoryException {
+        if (option > 3 || option < 0){
+            throw new NonexistentIndexException();
+        }
         ArrayList<Product> list;
         if (option == 0){
-            int indiceProduct= searchProductByName(value);
+            int start= searchProductByName(value);
             list= new ArrayList<>();
-            list.add(products.get(indiceProduct));
+            if (start == -1){
+                return list;
+            }
+            list.add(products.get(start));
             return list;
         } else if (option == 1) {
             double priceD= Double.parseDouble(value);
@@ -190,6 +198,9 @@ public class Inventory {
             list= new ArrayList<>(products.subList(start+1 , end));
             return list;
         } else if (option == 2) {
+            if (Integer.parseInt(value) > 7 || Integer.parseInt(value) < 0){
+                throw new NonexistentCategoryException();
+            }
             Category category= Category.values()[Integer.parseInt(value)];
             int start= searchProductByCategory(category);
             if (start == -1){
