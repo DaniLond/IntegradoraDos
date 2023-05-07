@@ -10,6 +10,8 @@ public class Product {
     private int timesBought;
     private Category category;
 
+    private int valueCategory;
+
     public Product(String name, String description, double price, int quantity, Category category) throws NegativeAmountException {
         if (quantity < 0){
             throw new NegativeAmountException();
@@ -23,10 +25,33 @@ public class Product {
         this.quantity = quantity;
         this.timesBought = 0;
         this.category = category;
+        this.valueCategory= valueCategory();
     }
+
+    public Product(String name, String description, double price, int quantity, Category category, int timesBought) throws NegativeAmountException {
+        if (quantity < 0){
+            throw new NegativeAmountException();
+        }
+        if (price < 0){
+            throw new NegativeAmountException();
+        }
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.quantity = quantity;
+        this.timesBought = timesBought;
+        this.category = category;
+        this.valueCategory= valueCategory();
+    }
+
+
 
     public String getName() {
         return name;
+    }
+
+    public int getValueCategory() {
+        return valueCategory;
     }
 
     public void setName(String name) {
@@ -71,6 +96,10 @@ public class Product {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public int valueCategory(){
+        return category.valueCategory(category);
     }
 
 }

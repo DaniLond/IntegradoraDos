@@ -5,8 +5,8 @@ import model.Inventory;
 import model.Product;
 import org.junit.jupiter.api.Test;
 
-import javax.swing.plaf.PanelUI;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 public class InventoryTest {
@@ -40,6 +40,21 @@ public class InventoryTest {
         inventory.addProduct(product4);
     }
 
+    public void setupStange4() throws NegativeAmountException, DuplicatedProductException, IOException {
+        inventory= new Inventory();
+        Product product1= new Product("ProductB" , "xxxxB", 20000,  2 ,Category.TOYS_AND_GAMES, 4);
+        Product product2= new Product("ProductC" , "xxxxD", 6000,  2 ,Category.FOOD_AND_DRINKS, 3);
+        Product product3= new Product("ProductA" , "xxxxA", 20000,  6 ,Category.FOOD_AND_DRINKS, 4);
+        Product product4= new Product("ProductD" , "xxxxd", 6000,  5 ,Category.FOOD_AND_DRINKS, 2);
+        Product product5= new Product("ProductE" , "xxxxe", 2000,  2 ,Category.BOOKS, 4);
+        inventory.addProduct(product1);
+        inventory.addProduct(product2);
+        inventory.addProduct(product3);
+        inventory.addProduct(product4);
+        inventory.addProduct(product5);
+    }
+
+
     //Agregar un producto correctamente
     @Test
     public void addNewProductTest() throws NegativeAmountException, DuplicatedProductException, IOException {
@@ -62,11 +77,11 @@ public class InventoryTest {
         inventory.addProduct(product2);
 
 
-        assertEquals(product1, inventory.searchProduct("Product1"));
-        assertEquals(product2, inventory.searchProduct("Product2"));
+        assertEquals(product1, inventory.getProducts().get(inventory.searchProductByName("Product1")));
+        assertEquals(product2, inventory.getProducts().get(inventory.searchProductByName("Product2")));
 
 
-        assertNull(inventory.searchProduct("Product 4"));
+        assertEquals(-1 , inventory.searchProductByName("Producto4"));
     }
     //Agregar un product duplicado
     @Test
@@ -78,23 +93,46 @@ public class InventoryTest {
     }
 
     @Test
-    void searchProductSuccessfullyByNameTest(){
-        assertTrue(false);
+    void searchProductSuccessfullyByNameTest() throws NegativeAmountException, IOException, DuplicatedProductException {
+        setupStange4();
+        String name= "ProductC";
+        ArrayList<Product> wantedProducts= inventory.searchProductByValue(name , 0);
+        assertEquals(1, wantedProducts.size());
+        assertTrue(wantedProducts.contains(inventory.getProducts().get(2)));
     }
 
     @Test
-    void searchProductSuccessfullyByPriceTest(){
-        assertTrue(false);
+    void searchProductSuccessfullyByPriceTest() throws NegativeAmountException, IOException, DuplicatedProductException {
+        setupStange4();
+        String price= "20000";
+        ArrayList<Product> wantedProducts= inventory.searchProductByValue(price, 1);
+        assertEquals(2 , wantedProducts.size());
+        assertEquals(wantedProducts.get(1).getName() , "ProductB");
+        assertEquals(wantedProducts.get(0).getName() , "ProductA");
     }
 
     @Test
-    void searchProductSuccessfullyByCategoryTest(){
-        assertTrue(false);
+    void searchProductSuccessfullyByCategoryTest() throws NegativeAmountException, IOException, DuplicatedProductException {
+        setupStange4();
+        String category= "3";
+        ArrayList<Product> wantedProducts= inventory.searchProductByValue(category, 2);
+        assertEquals(Category.FOOD_AND_DRINKS , Category.values()[3]);
+        assertEquals(3, wantedProducts.size());
+        assertEquals(wantedProducts.get(1).getName() , "ProductC");
+        assertEquals(wantedProducts.get(2).getName() , "ProductD");
+        assertEquals(wantedProducts.get(0).getName() , "ProductA");
     }
 
     @Test
-    void searchProductSuccessfullyByTimeBoughtTest(){
-        assertTrue(false);
+    void searchProductSuccessfullyByTimeBoughtTest() throws NegativeAmountException, IOException, DuplicatedProductException {
+        setupStange4();
+        String timesBought= "4";
+        ArrayList<Product> wantedProducts= inventory.searchProductByValue(timesBought, 3);
+        assertEquals(3 , wantedProducts.size());
+        assertEquals(wantedProducts.get(0).getName() , "ProductA");
+        assertEquals(wantedProducts.get(1).getName() , "ProductB");
+        assertEquals(wantedProducts.get(2).getName() , "ProductE");
+
     }
 
     @Test

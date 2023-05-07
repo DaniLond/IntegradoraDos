@@ -40,7 +40,8 @@ public class Controller {
         Order order = new Order(nameBuyer);
 
         for (String productName : productNames) {
-            Product product = inventory.searchProduct(productName);
+            int indice= inventory.searchProductByName(productName);
+            Product product = inventory.getProducts().get(indice);
             if (product != null && product.getQuantity() > 0) {
                 order.addProduct(product);
                 product.setQuantity(product.getQuantity() - 1);
