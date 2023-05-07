@@ -15,18 +15,18 @@ Iteración 2
 
 ID commit: 5fa5671
 
-   Densidad de errores-fallos = 0.7777
+   Densidad de errores-fallos = 0.76
    
-   Confiabilidad = 0.2222
+   Confiabilidad = 0.24
    
-   Completitud = 3.375
+   Completitud = 3.125
    
  Iteracion 3
  
  ID commit: 7175a68
  
-   Densidad de errores-fallos = 0.629
+   Densidad de errores-fallos = 0.6
    
-   Confiabilidad = 0.3703
+   Confiabilidad = 0.4
    
-   Completitud = 3.375
+   Completitud = 3.125
