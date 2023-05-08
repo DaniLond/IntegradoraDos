@@ -71,4 +71,15 @@ ID commit: 5fa5671
    Confiabilidad = 0.56666
    
    Completitud = 3.75
+   
+   Iteracion 8
+   
+   ID commit: 6976f87
+   
+   Densidad de errores-fallos = 0.305
+   
+   Confiabilidad = 0.695
+   
+   Completitud = 4.5
+   
   
