@@ -43,6 +43,7 @@
                 System.out.println("3. Register order");
                 System.out.println("4. Search for a product");
                 System.out.println("5. Delete a Product");
+                System.out.println("6.Increase the quantity of a product");
                 System.out.println("0. Exit");
 
                 int mainOption = reader.nextInt();
@@ -63,6 +64,9 @@
                         break;
                     case 5:
                         deleteProduct();
+                        break;
+                    case 6:
+                        increaseProductQuantity();
                         break;
                     case 0:
                         System.out.println("Thanks for using our system");
@@ -185,5 +189,26 @@
                 }
             }
         }
+
+        public void increaseProductQuantity() {
+            try {
+                System.out.println("Enter the name of the product:");
+                reader.nextLine();
+                String productName = reader.nextLine();
+                System.out.println("Enter the quantity to add:");
+                int quantityToAdd = reader.nextInt();
+                controller.increaseProductQuantity(productName, quantityToAdd);
+                System.out.println("Product quantity increased successfully");
+            } catch (NegativeAmountException e) {
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+
+
+
 
     }

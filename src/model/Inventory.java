@@ -263,7 +263,6 @@ public class Inventory {
         if (quantityToAdd < 0) {
             throw new NegativeAmountException("Quantity to add cannot be negative");
         }
-
         for (Product product : products) {
             if (product.getName().equalsIgnoreCase(productName)) {
                 int newQuantity = product.getQuantity() + quantityToAdd;

@@ -81,5 +81,23 @@ public class Controller {
     public ArrayList<Product> getInventory() {
         return inventory.getProducts();
     }
+
+    public void increaseProductQuantity(String productName, int quantityToAdd) throws NegativeAmountException, IOException {
+        if (quantityToAdd < 0) {
+            throw new NegativeAmountException("Quantity to add cannot be negative");
+        }
+        for (Product product : inventory.getProducts()) {
+            if (product.getName().equalsIgnoreCase(productName)) {
+                int newQuantity = product.getQuantity() + quantityToAdd;
+                product.setQuantity(newQuantity);
+
+                inventory.save();
+
+                return;
+            }
+        }
+    }
+
+
 }
 

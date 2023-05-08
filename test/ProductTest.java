@@ -1,9 +1,6 @@
 import exceptions.DuplicatedProductException;
 import exceptions.NegativeAmountException;
-import model.Category;
-import model.Inventory;
-import model.Order;
-import model.Product;
+import model.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -14,11 +11,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ProductTest {
 
 
+
     public void setupStange1() throws NegativeAmountException {
-        Order order= new Order("Santiago", 2000, LocalDate.now());
-        Product product1= new Product("ProductA" , "xxxxA", 1000,  1 ,Category.BOOKS);
-        Product product2= new Product("ProductB" , "xxxxB", 1000,  2 , Category.FOOD_AND_DRINKS);
-        //Agregar los productos a la lista de order
+        Order order = new Order("Santiago", 2000, LocalDate.now());
+        Product product1 = new Product("ProductA", "xxxxA", 1000, 1, Category.BOOKS);
+        Product product2 = new Product("ProductB", "xxxxB", 1000, 2, Category.FOOD_AND_DRINKS);
+        order.addProduct(product1);
+        order.addProduct(product2);
+
     }
 
 
@@ -47,7 +47,9 @@ public class ProductTest {
 
     @Test
     public void increaseProductTest() throws NegativeAmountException {
-        
+        setupStange1();
+    
+
     }
 
 

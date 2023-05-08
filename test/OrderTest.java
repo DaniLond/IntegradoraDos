@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class OrderTest {
 
@@ -16,6 +17,13 @@ public class OrderTest {
         order.addProductToOrder(product1);
         order.addProductToOrder(product2);
         //Agregar los productos a la lista de order
+    }
+    public void setupStange2(List<Order> orderList){
+        Order order= new Order("Santiago", 2000, LocalDate.now());
+        Order order1= new Order("Valentian", 3000, LocalDate.now());
+        orderList.add(order);
+        orderList.add(order1);
+
     }
 
     @Test
@@ -38,4 +46,22 @@ public class OrderTest {
         order.addProductToOrder(producto1);
         ArrayList<Product> products = order.getProducts();
         assertTrue(products.contains(producto1));
-}}
+}
+    @Test
+    public void addOrder(){
+        List<Order> orderList = new ArrayList<>();
+        setupStange2(orderList);
+        // Verificar que se hayan agregado las órdenes correctamente
+        assertEquals(2, orderList.size());
+        assertEquals("Santiago", orderList.get(0).getNameBuyer());
+        assertEquals(2000, orderList.get(0).getTotalPrice());
+        assertEquals(LocalDate.now(), orderList.get(0).getDate());
+        assertEquals("Valentian", orderList.get(1).getNameBuyer());
+        assertEquals(3000, orderList.get(1).getTotalPrice());
+        assertEquals(LocalDate.now(), orderList.get(1).getDate());
+
+
+    }
+
+
+}
