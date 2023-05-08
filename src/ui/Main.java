@@ -1,12 +1,14 @@
     package ui;
 
     import exceptions.*;
-    import model.Category;
-    import model.Controller;
-    import model.Product;
+    import model.*;
 
     import java.io.IOException;
+    import java.time.LocalDate;
+    import java.time.format.DateTimeParseException;
     import java.util.ArrayList;
+    import java.util.InputMismatchException;
+    import java.util.List;
     import java.util.Scanner;
     import model.Product;
     import model.Product;
@@ -45,6 +47,7 @@
                 System.out.println("5. Delete a Product");
                 System.out.println("6.Increase the quantity of a product");
                 System.out.println("7. Search by range");
+                System.out.println("8. Search Order");
                 System.out.println("0. Exit");
 
                 int mainOption = reader.nextInt();
@@ -71,6 +74,9 @@
                         break;
                     case 7:
                         searchProductByRange();
+                        break;
+                    case 8:
+                        searchOrder();
                         break;
                     case 0:
                         System.out.println("Thanks for using our system");
@@ -250,6 +256,41 @@
             } catch (EmptyListException e) {
                 System.out.println(e.getMessage());
                 e.getStackTrace();
+            }
+
+        }
+
+        public void searchOrder() {
+            try {
+                System.out.println("By which variable do you want to search for an order?");
+                System.out.println("1. Name of Buyer\n2. Total Price\n3. Date of Purchase");
+                int option = reader.nextInt();
+                reader.nextLine();
+
+                switch (option) {
+                    case 1:
+                        System.out.println("Enter the name of the buyer:");
+                        String buyerName = reader.nextLine();
+                        System.out.println( controller.searchOrder(buyerName, option));
+                        break;
+                    case 2:
+                        System.out.println("Enter the total price:");
+                        String totalPrice = reader.nextLine();
+                        System.out.println( controller.searchOrder(totalPrice, option));
+                        break;
+                    case 3:
+                        System.out.println("Enter the purchase date(DD/MM/YYYY):");
+                        String dateStr = reader.nextLine();
+                        System.out.println( controller.searchOrder(dateStr,option));
+                        break;
+                    default:
+                        System.out.println("Invalid option.");
+                        break;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid option.");
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid date format. Please enter the date in the format YYYY-MM-DD.");
             }
 
         }

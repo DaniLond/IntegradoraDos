@@ -3,7 +3,10 @@ package model;
 import exceptions.*;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Controller {
     private Orders order;
@@ -112,6 +115,37 @@ public class Controller {
             return "There ir no product with this value";
         }
         return product;
+    }
+
+
+
+    public String searchOrder(String value, int option){
+        List<Order> orders = null;
+        if(option ==1){
+            orders = order.searchOrderByBuyerName(value);
+        }
+        if(option ==2){
+            orders = order.searchOrderByTotalPrice(Integer.parseInt(value));
+
+        }
+        if(option==3){
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("DD/MM/YYYY");
+
+            LocalDate localDate = LocalDate.parse(value, formatter);
+
+            orders = order.searchOrderByDate(localDate);
+        }
+
+        String orders1 = "";
+
+        for (int i =0; i < orders.size(); i++){
+            orders1 += orders.get(i).getNameBuyer() +" - " + orders.get(i).getTotalPrice() + " - " + orders.get(i).getDate();
+
+
+        }
+        return orders1;
+
     }
 
 }
