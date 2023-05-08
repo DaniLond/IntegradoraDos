@@ -36,28 +36,24 @@ public class Controller {
 
 
     public boolean addOrder(String nameBuyer, ArrayList<String> productNames) throws IOException {
-        Order order = new Order(nameBuyer);
-
+        Order order1 = new Order(nameBuyer);
         for (String productName : productNames) {
-            int indice= inventory.searchProductByName(productName);
+            int indice = inventory.searchProductByName(productName);
             Product product = inventory.getProducts().get(indice);
             if (product != null && product.getQuantity() > 0) {
-                order.addProduct(product);
+                order1.addProduct(product);
+                System.out.println(order1.getProductArrayList().get(0).getName());
                 product.setQuantity(product.getQuantity() - 1);
                 product.setTimesBought(product.getTimesBought() + 1);
-                order.setTotalPrice(order.getTotalPrice() + product.getPrice());
+                order1.setTotalPrice(order1.getTotalPrice() + product.getPrice());
             }
         }
-
-        if (order.getProductArrayList().size() > 0) {
+            order.getOrders().add(order1);
             order.save();
             inventory.save();
             return true;
-        } else {
-            System.out.println("Some products are not available.");
-            return false;
-        }
     }
+
 
     public String searchProduct(String value, int option) throws NonexistentIndexException, NonexistentCategoryException, EmptyListException {
         ArrayList<Product> products = inventory.searchProductByValue(value, option);
@@ -71,5 +67,19 @@ public class Controller {
         return product;
     }
 
+    public boolean removeProductFromInventory(String productName) throws IOException {
+        for (Product product : inventory.getProducts()) {
+            if (product.getName().equalsIgnoreCase(productName)) {
+                inventory.getProducts().remove(product);
+                order.save();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ArrayList<Product> getInventory() {
+        return inventory.getProducts();
+    }
 }
 

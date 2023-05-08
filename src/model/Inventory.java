@@ -1,15 +1,13 @@
 package model;
 
 import com.google.gson.Gson;
-import exceptions.DuplicatedProductException;
-import exceptions.EmptyListException;
-import exceptions.NonexistentCategoryException;
-import exceptions.NonexistentIndexException;
+import exceptions.*;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+
 
 public class Inventory {
     private ArrayList<Product> products;
@@ -248,6 +246,34 @@ public class Inventory {
             product += this.products.get(i).getName() +" - " + this.products.get(i).getPrice() + " - " + this.products.get(i).getQuantity() + " - " + this.products.get(i).getCategory() +" - " +  this.products.get(i).getTimesBought() + "\n";
         }
         return product;
+    }
+
+
+    public boolean removeProduct(String productName) throws IOException {
+        int index = searchProductByName(productName);
+        if (index != -1) {
+            products.remove(index);
+            save();
+            return true;
+        }
+        return false;
+    }
+
+    public void increaseProductQuantity(String productName, int quantityToAdd) throws NegativeAmountException, IOException {
+        if (quantityToAdd < 0) {
+            throw new NegativeAmountException("Quantity to add cannot be negative");
+        }
+
+        for (Product product : products) {
+            if (product.getName().equalsIgnoreCase(productName)) {
+                int newQuantity = product.getQuantity() + quantityToAdd;
+                product.setQuantity(newQuantity);
+
+                save();
+
+                return;
+            }
+        }
     }
 
 }

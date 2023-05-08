@@ -14,10 +14,10 @@ public class Product {
 
     public Product(String name, String description, double price, int quantity, Category category) throws NegativeAmountException {
         if (quantity < 0){
-            throw new NegativeAmountException();
+            throw new NegativeAmountException("Quantity to add cannot be negative");
         }
         if (price < 0){
-            throw new NegativeAmountException();
+            throw new NegativeAmountException("Quantity to add cannot be negative");
         }
         this.name = name;
         this.description = description;
@@ -30,10 +30,10 @@ public class Product {
 
     public Product(String name, String description, double price, int quantity, Category category, int timesBought) throws NegativeAmountException {
         if (quantity < 0){
-            throw new NegativeAmountException();
+            throw new NegativeAmountException("Quantity to add cannot be negative");
         }
         if (price < 0){
-            throw new NegativeAmountException();
+            throw new NegativeAmountException("Quantity to add cannot be negative");
         }
         this.name = name;
         this.description = description;
@@ -101,5 +101,7 @@ public class Product {
     public int valueCategory(){
         return category.valueCategory(category);
     }
+
+
 
 }

@@ -7,13 +7,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Orders {
-    private ArrayList<Order> orders;
+    private static ArrayList<Order> orders;
     static String path= "data2.txt";
     public Orders() {
         this.orders = new ArrayList<>();
     }
 
     public ArrayList<Order> getOrders() {
+
         return orders;
     }
 
@@ -56,6 +57,9 @@ public class Orders {
             file.createNewFile();
         }
     }
+
+
+
 
 
 }

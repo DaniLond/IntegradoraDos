@@ -57,8 +57,17 @@ public class Order {
     }
 
     public void addProduct(Product product) {
+        productArrayList.add(product);
     }
 
     public void save() {
+    }
+
+    public void addProductToOrder(Product product) {
+        productArrayList.add(product);
+    }
+
+    public ArrayList<Product> getProducts() {
+        return productArrayList;
     }
 }
