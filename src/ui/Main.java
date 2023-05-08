@@ -290,7 +290,7 @@
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter a valid option.");
             } catch (DateTimeParseException e) {
-                System.out.println("Invalid date format. Please enter the date in the format YYYY-MM-DD.");
+                System.out.println("Invalid date format. Please enter the date in the format(DD/MM/YYYY) .");
             }
 
         }
