@@ -101,7 +101,22 @@ public class Product {
     public int valueCategory(){
         return category.valueCategory(category);
     }
+    public void increaseProduct(int amount) throws NegativeAmountException {
+        if (amount < 0) {
+            throw new NegativeAmountException("Invalid amount: " + amount);
+        }
+        this.quantity += amount;
+    }
 
 
+    public void decreaseQuantity(int quantityToSubtract) throws NegativeAmountException {
+        if (quantityToSubtract < 0) {
+            throw new NegativeAmountException("Quantity to subtract cannot be negative");
+        }
+        if (quantityToSubtract > quantity) {
+            throw new NegativeAmountException("Not enough quantity available");
+        }
+        quantity -= quantityToSubtract;
+    }
 
 }

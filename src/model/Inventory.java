@@ -462,5 +462,35 @@ public class Inventory {
         return -1;
     }
 
+    public Product getProductByName(String productName) {
+        for (Product product : products) {
+            if (product.getName().equalsIgnoreCase(productName)) {
+                return product;
+            }
+        }
+        return null; // Si no se encuentra el productose retorna null
+    }
+
+    public void decreaseProduct(String productName, int quantityToSubtract) throws NegativeAmountException, InsufficientQuantityException, IOException {
+        if (quantityToSubtract < 0) {
+            throw new NegativeAmountException("Quantity to subtract cannot be negative");
+        }
+        for (Product product : products) {
+            if (product.getName().equalsIgnoreCase(productName)) {
+                int newQuantity = product.getQuantity() - quantityToSubtract;
+                if (newQuantity < 0) {
+                    throw new InsufficientQuantityException("Insufficient quantity to subtract");
+                }
+                product.setQuantity(newQuantity);
+
+                save();
+
+                return;
+            }
+        }
+    }
+
 
 }
+
+

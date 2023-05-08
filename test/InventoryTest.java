@@ -189,13 +189,31 @@ public class InventoryTest {
     }
 
     @Test
-    public void removeProductSuccessfullyTest(){
-        assertTrue(false);
+    public void removeProductSuccessfullyTest() throws NegativeAmountException, IOException, DuplicatedProductException {
+        setupStange2();
+        Inventory inventory = new Inventory();
+        Product product1 = new Product("ProductB", "xxxxB", 20000, 2, Category.TOYS_AND_GAMES);
+        Product product2 = new Product("ProductC", "xxxxc", 6000, 2, Category.FOOD_AND_DRINKS);
+        inventory.addProduct(product1);
+        inventory.addProduct(product2);
+        String productName = "ProductB";
+
+        // Act
+        boolean removed = inventory.removeProduct(productName);
+
+        // Assert
+        assertTrue(removed);
+        assertNull(inventory.getProductByName(productName));
+
+
     }
 
     @Test
-    public void removeNonexistentProductTest(){
-        assertTrue(false);
+    public void removeNonexistentProductTest() throws NegativeAmountException, IOException, DuplicatedProductException {
+        setupStange2();
+        String productName = "NonexistentProduct";
+        boolean removed = inventory.removeProduct(productName);
+        assertFalse(removed);
     }
 
     @Test

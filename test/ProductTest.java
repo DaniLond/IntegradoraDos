@@ -12,12 +12,15 @@ public class ProductTest {
 
 
 
-    public void setupStange1() throws NegativeAmountException {
+    public void setupStange1() throws NegativeAmountException, IOException, DuplicatedProductException {
+        Inventory inventory = new Inventory();
         Order order = new Order("Santiago", 2000, LocalDate.now());
         Product product1 = new Product("ProductA", "xxxxA", 1000, 1, Category.BOOKS);
         Product product2 = new Product("ProductB", "xxxxB", 1000, 2, Category.FOOD_AND_DRINKS);
         order.addProduct(product1);
         order.addProduct(product2);
+        inventory.addProduct(product1);
+        inventory.addProduct(product2);
 
     }
 
@@ -47,27 +50,46 @@ public class ProductTest {
 
     @Test
     public void increaseProductTest() throws NegativeAmountException {
-        setupStange1();
+        Product product3 = new Product("ProductD", "xxxxD", 700, 3, Category.ELECTRONICS);
+        assertThrows(NegativeAmountException.class, () -> product3.increaseProduct(-2));
     
 
     }
 
 
-
-
     @Test
-    public void increaseProductExceptionTest(){
-        assertTrue(false);
+    public void increaseProductExceptionTest() throws NegativeAmountException{
+        Product product3 = new Product("ProductC", "xxxxC", 500, 3, Category.FOOD_AND_DRINKS);
+        assertThrows(NegativeAmountException.class, () -> product3.increaseProduct(-2));
+
     }
 
     @Test
-    public void decreaseProductTest(){
-        assertTrue(false);
+    public void decreaseProductTest() throws NegativeAmountException, DuplicatedProductException, IOException {
+        setupStange1();
+        Inventory inventory = new Inventory();
+
+        // Crea un nuevo producto para agregar al inventario
+        Product product = new Product("ProductC", "xxxxC", 1500, 3, Category.ELECTRONICS);
+
+        // Llama al método addProduct() y verifica si se agregó correctamente
+        boolean productAdded = inventory.addProduct(product);
+        assertTrue(productAdded);
+
     }
 
     @Test
-    public void decreaseProductExceptionTest(){
-        assertTrue(false);
+    public void decreaseProductExceptionTest() throws NegativeAmountException,DuplicatedProductException, IOException {
+    setupStange1();
+        Inventory inventory = new Inventory();
+        Product product = new Product("ProductA", "xxxxA", 1000, 5, Category.BOOKS);
+        inventory.addProduct(product);
+        // Intentar decrementar una cantidad de -4
+        Assertions.assertThrows(NegativeAmountException.class, () -> {
+            inventory.decreaseProduct(product.getName(), -4);});
+        // Verificar que la cantidad del producto no ha cambiado
+        Assertions.assertEquals(5, product.getQuantity());
     }
 
-}
+    }
+
