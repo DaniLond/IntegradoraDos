@@ -1,6 +1,7 @@
 package model;
 
 import com.google.gson.Gson;
+import com.sun.deploy.net.MessageHeader;
 import exceptions.InvalidDateException;
 
 import java.io.*;
@@ -11,10 +12,12 @@ import java.util.Collections;
 import java.util.List;
 
 public class Orders {
+    private List<Order> orderList;
     private static ArrayList<Order> orders;
     static String path= "data2.txt";
     public Orders() {
-        this.orders = new ArrayList<>();
+        this.orderList= new ArrayList<>();
+        orders = new ArrayList<>();
     }
 
     public ArrayList<Order> getOrders() {
@@ -117,6 +120,13 @@ public class Orders {
     }
 
 
+    public void addOrder(Order order) {
+        orderList.add(order);
+    }
+
+    public List<Order> getOrderList() {
+        return orderList;
+    }
 
 
 

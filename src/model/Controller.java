@@ -116,37 +116,34 @@ public class Controller {
         }
         return product;
     }
+    public String searchOrder(String value, int option) {
+    List<Order> orders = null;
 
-
-
-    public String searchOrder(String value, int option){
-        List<Order> orders = null;
-        if(option ==1){
-            orders = order.searchOrderByBuyerName(value);
-        }
-        if(option ==2){
-            orders = order.searchOrderByTotalPrice(Integer.parseInt(value));
-
-        }
-        if(option==3){
-
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("DD/MM/YYYY");
-
-            LocalDate localDate = LocalDate.parse(value, formatter);
-
-            orders = order.searchOrderByDate(localDate);
-        }
-
-        String orders1 = "";
-
-        for (int i =0; i < orders.size(); i++){
-            orders1 += orders.get(i).getNameBuyer() +" - " + orders.get(i).getTotalPrice() + " - " + orders.get(i).getDate();
-
-
-        }
-        return orders1;
-
+    if (option == 1) {
+        orders = order.searchOrderByBuyerName(value);
+    } else if (option == 2) {
+        orders = order.searchOrderByTotalPrice(Integer.parseInt(value));
+    } else if (option == 3) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate localDate = LocalDate.parse(value, formatter);
+        orders = order.searchOrderByDate(localDate);
     }
+
+    StringBuilder orders1 = new StringBuilder();
+
+    if (orders != null) {
+        for (Order order : orders) {
+            orders1.append(order.getNameBuyer())
+                    .append(" - ")
+                    .append(order.getTotalPrice())
+                    .append(" - ")
+                    .append(order.getDate())
+                    .append("\n");
+        }
+    }
+
+    return orders1.toString();
+}
 
 }
 
