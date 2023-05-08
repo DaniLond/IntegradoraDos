@@ -48,23 +48,16 @@ public class Controller {
                 order1.setTotalPrice(order1.getTotalPrice() + product.getPrice());
             }
         }
-            order.getOrders().add(order1);
-            order.save();
-            inventory.save();
-            return true;
+        order.getOrders().add(order1);
+        order.save();
+        inventory.save();
+        return true;
     }
 
 
     public String searchProduct(String value, int option) throws NonexistentIndexException, NonexistentCategoryException, EmptyListException {
         ArrayList<Product> products = inventory.searchProductByValue(value, option);
-        String product= "";
-        for (int i=0; i < products.size(); i++){
-            product += products.get(i).getName() +" - " + products.get(i).getPrice() + " - " + products.get(i).getQuantity() + " - " + products.get(i).getCategory() +" - " +  products.get(i).getTimesBought() + "\n";
-        }
-        if (product.equals("")){
-            return "There ir no product with this value";
-        }
-        return product;
+        return showProduct(products);
     }
 
     public boolean removeProductFromInventory(String productName) throws IOException {
@@ -96,6 +89,29 @@ public class Controller {
                 return;
             }
         }
+    }
+
+
+
+    public String searchProductByRangeNumeric(int option, int minvalue, int maxvalue, int order) throws NonexistentIndexException, EmptyListException {
+        ArrayList<Product> products= inventory.searchProductByRangeNumeric(option, minvalue, maxvalue, order);
+        return showProduct(products);
+    }
+
+    public String searchProductByRangeString(char minvalue, char maxvalue, int orderOfProducts) throws EmptyListException {
+        ArrayList<Product> products= inventory.searchProductByRangeString(minvalue, maxvalue, orderOfProducts);
+        return showProduct(products);
+    }
+
+    public String showProduct(ArrayList<Product> products){
+        String product= "";
+        for (int i=0; i < products.size(); i++){
+            product += products.get(i).getName() +" - " + products.get(i).getPrice() + " - " + products.get(i).getQuantity() + " - " + products.get(i).getCategory() +" - " +  products.get(i).getTimesBought() + "\n";
+        }
+        if (product.equals("")){
+            return "There ir no product with this value";
+        }
+        return product;
     }
 
 }

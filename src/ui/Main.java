@@ -44,6 +44,7 @@
                 System.out.println("4. Search for a product");
                 System.out.println("5. Delete a Product");
                 System.out.println("6.Increase the quantity of a product");
+                System.out.println("7. Search by range");
                 System.out.println("0. Exit");
 
                 int mainOption = reader.nextInt();
@@ -67,6 +68,9 @@
                         break;
                     case 6:
                         increaseProductQuantity();
+                        break;
+                    case 7:
+                        searchProductByRange();
                         break;
                     case 0:
                         System.out.println("Thanks for using our system");
@@ -206,6 +210,48 @@
                 System.out.println(e.getMessage());
                 e.printStackTrace();
             }
+        }
+
+
+        public void searchProductByRange(){
+            try {
+                System.out.println("Which type do you wants to search for: \n1. Numeric \n2. String");
+                System.out.println("Choose in index");
+                int index = reader.nextInt();
+
+                if (index == 1) {
+                    System.out.println("By which variable you want to search for a product");
+                    System.out.println("0. Price\n1. Amount\n2. number of shares");
+                    int option = reader.nextInt();
+                    System.out.println("Enter a minimum value");
+                    int minvalue = reader.nextInt();
+                    System.out.println("Enter a maximum value");
+                    int maxvalue = reader.nextInt();
+                    System.out.println("Choose the order (enter the index) \n0. descending \n1. Ascending");
+                    int order = reader.nextInt();
+
+                    System.out.println(controller.searchProductByRangeNumeric(option, minvalue, maxvalue, order));
+                } else if (index == 2) {
+                    reader.nextLine();
+                    System.out.println("Enter start letter or prefix");
+                    String minvalue = reader.nextLine();
+                    char minChar = minvalue.charAt(0);
+                    System.out.println("Enter final letter or prefix");
+                    String maxvalue = reader.nextLine();
+                    char maxChar = maxvalue.charAt(0);
+                    System.out.println("Choose the order (enter the index) \n0. descending \n1. Ascending");
+                    int order = reader.nextInt();
+
+                    System.out.println(controller.searchProductByRangeString(minChar, maxChar, order));
+                }
+            } catch (NonexistentIndexException e) {
+                System.out.println(e.getMessage());
+                e.getStackTrace();
+            } catch (EmptyListException e) {
+                System.out.println(e.getMessage());
+                e.getStackTrace();
+            }
+
         }
 
     }
