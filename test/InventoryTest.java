@@ -29,10 +29,10 @@ public class InventoryTest {
 
     public void setupStange3() throws NegativeAmountException, DuplicatedProductException, IOException {
         inventory= new Inventory();
-        Product product1= new Product("Calabozos y dragones" , "xxxxB", 20000,  3 ,Category.TOYS_AND_GAMES);
-        Product product2= new Product("Coco-Lemonade" , "xxxxC", 6000,  8 ,Category.FOOD_AND_DRINKS);
-        Product product3= new Product("El diario de Ana Frank" , "xxxxA", 30000,  6 ,Category.BOOKS);
-        Product product4= new Product("Agus" , "xxxxD", 1000,  5 ,Category.FOOD_AND_DRINKS);
+        Product product1= new Product("Calabozos y dragones" , "xxxxB", 20000,  3 ,Category.TOYS_AND_GAMES, 3);
+        Product product2= new Product("Coco-Lemonade" , "xxxxC", 6000,  8 ,Category.FOOD_AND_DRINKS, 4);
+        Product product3= new Product("El diario de Ana Frank" , "xxxxA", 30000,  6 ,Category.BOOKS, 2);
+        Product product4= new Product("Agus" , "xxxxD", 1000,  5 ,Category.FOOD_AND_DRINKS, 3);
         inventory.addProduct(product1);
         inventory.addProduct(product2);
         inventory.addProduct(product3);
@@ -199,13 +199,90 @@ public class InventoryTest {
     }
 
     @Test
-    public void searchRangeNumericalValueTest(){
-        assertTrue(false);
+    public void searchByDescendingPriceRangeTest() throws NegativeAmountException, IOException, DuplicatedProductException, NonexistentIndexException, EmptyListException {
+        setupStange3();
+        ArrayList<Product> wantedProducts= inventory.searchProductByRangeNumeric(0, 6000, 30000, 0);
+        //Se verifica que este y en el orden pedido, con los indices
+        assertEquals(3 , wantedProducts.size());
+        assertEquals("El diario de Ana Frank" , wantedProducts.get(0).getName());
+        assertEquals("Calabozos y dragones" , wantedProducts.get(1).getName());
+        assertEquals("Coco-Lemonade" , wantedProducts.get(2).getName());
     }
 
     @Test
-    public void searchRangeStringTypeTest(){
-        assertTrue(false);
+    public void searchByAscendingPriceRangeTest() throws NegativeAmountException, IOException, DuplicatedProductException, NonexistentIndexException, EmptyListException {
+        setupStange3();
+        ArrayList<Product> wantedProducts= inventory.searchProductByRangeNumeric(0, 6000, 30000, 1);
+        //Se verifica que este y en el orden pedido, con los indices
+        assertEquals(3 , wantedProducts.size());
+        assertEquals("El diario de Ana Frank" , wantedProducts.get(2).getName());
+        assertEquals("Calabozos y dragones" , wantedProducts.get(1).getName());
+        assertEquals("Coco-Lemonade" , wantedProducts.get(0).getName());
     }
+
+    @Test
+    public void searchByAscendingQuantityRangeTest() throws NegativeAmountException, IOException, DuplicatedProductException, NonexistentIndexException, EmptyListException {
+        setupStange3();
+        ArrayList<Product> wantedProducts= inventory.searchProductByRangeNumeric(1, 5, 8, 1);
+        //Se verifica que este y en el orden pedido, con los indices
+        assertEquals(3 , wantedProducts.size());
+        assertEquals("Agus" , wantedProducts.get(0).getName());
+        assertEquals("El diario de Ana Frank" , wantedProducts.get(1).getName());
+        assertEquals("Coco-Lemonade" , wantedProducts.get(2).getName());
+    }
+
+    @Test
+    public void searchByDescendingQuantityRangeTest() throws NegativeAmountException, IOException, DuplicatedProductException, NonexistentIndexException, EmptyListException {
+        setupStange3();
+        ArrayList<Product> wantedProducts= inventory.searchProductByRangeNumeric(1, 5, 8, 0);
+        //Se verifica que este y en el orden pedido, con los indices
+        assertEquals(3 , wantedProducts.size());
+        assertEquals("Agus" , wantedProducts.get(2).getName());
+        assertEquals("El diario de Ana Frank" , wantedProducts.get(1).getName());
+        assertEquals("Coco-Lemonade" , wantedProducts.get(0).getName());
+    }
+
+    @Test
+    public void searchByAscendingTimesBoughtTest() throws NegativeAmountException, IOException, DuplicatedProductException, NonexistentIndexException, EmptyListException {
+        setupStange3();
+        ArrayList<Product> wantedProducts= inventory.searchProductByRangeNumeric(2, 2, 3, 1);
+        //Se verifica que este y en el orden pedido, con los indices
+        assertEquals(3 , wantedProducts.size());
+        assertEquals("El diario de Ana Frank" , wantedProducts.get(0).getName());
+        assertEquals("Calabozos y dragones" , wantedProducts.get(1).getName());
+        assertEquals("Agus" , wantedProducts.get(2).getName());
+    }
+
+    @Test
+    public void searchByDescendingTimesBoughtTest() throws NegativeAmountException, IOException, DuplicatedProductException, NonexistentIndexException, EmptyListException {
+        setupStange3();
+        ArrayList<Product> wantedProducts= inventory.searchProductByRangeNumeric(2, 2, 3, 0);
+        //Se verifica que este y en el orden pedido, con los indices
+        assertEquals(3 , wantedProducts.size());
+        assertEquals("El diario de Ana Frank" , wantedProducts.get(2).getName());
+        assertEquals("Agus" , wantedProducts.get(1).getName());
+        assertEquals("Calabozos y dragones" , wantedProducts.get(0).getName());
+    }
+
+    @Test
+    public void searchRangeAscendingStringTypeTest() throws NegativeAmountException, IOException, DuplicatedProductException, EmptyListException {
+        setupStange3();
+        ArrayList<Product> wantedProducts= inventory.searchProductByRangeString('A' , 'C' , 1);
+        assertEquals(3 , wantedProducts.size());
+        assertEquals("Coco-Lemonade" , wantedProducts.get(2).getName());
+        assertEquals("Agus" , wantedProducts.get(1).getName());
+        assertEquals("Calabozos y dragones" , wantedProducts.get(0).getName());
+    }
+
+    @Test
+    public void searchRangeDescendingStringTypeTest() throws NegativeAmountException, IOException, DuplicatedProductException, EmptyListException {
+        setupStange3();
+        ArrayList<Product> wantedProducts= inventory.searchProductByRangeString('A' , 'C' , 0);
+        assertEquals(3 , wantedProducts.size());
+        assertEquals("Calabozos y dragones" , wantedProducts.get(2).getName());
+        assertEquals("Agus" , wantedProducts.get(1).getName());
+        assertEquals("Coco-Lemonade" , wantedProducts.get(0).getName());
+    }
+
 
 }

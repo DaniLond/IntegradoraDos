@@ -275,4 +275,192 @@ public class Inventory {
         }
     }
 
+
+    public ArrayList<Product> searchProductByRangeNumeric(int option, int minvalue, int maxvalue, int orderOfProducts ) throws NonexistentIndexException, EmptyListException {
+        if (option > 3 || option < 0){
+            throw new NonexistentIndexException();
+        }
+        if (products.isEmpty()){
+            throw new EmptyListException();
+        }
+        ArrayList<Product> list;
+        if (option == 0){
+            int start= searchProductByPrice((double) minvalue);
+            if (start == -1){
+                list= new ArrayList<>();
+                return list;
+            }
+            int end= start;
+            while (start >= 0 && products.get(start).getPrice() >= minvalue){
+                start--;
+            }
+            while (end < products.size() && products.get(end).getPrice() <= maxvalue){
+                end++;
+            }
+            list= new ArrayList<>(products.subList(start+1 , end));
+            if (orderOfProducts == 0){
+                orderProduct(0, list, 0);
+            }else {
+                orderProduct(1, list ,0);
+            }
+            return list;
+        } else if (option == 1) {
+            int start= searchProductByQuantity(minvalue);
+            if (start == -1){
+                list= new ArrayList<>();
+                return list;
+            }
+            int end= start;
+            while (start >= 0 && products.get(start).getQuantity() >= minvalue){
+                start--;
+            }
+            while (end < products.size() && products.get(end).getQuantity() <= maxvalue){
+                end++;
+            }
+            list= new ArrayList<>(products.subList(start+1 , end));
+            if (orderOfProducts == 0){
+                orderProduct(0, list, 1);
+            }else {
+                orderProduct(1, list ,1);
+            }
+            return list;
+        }else if (option == 2){
+            int start= searchProductByTimeBought(minvalue);
+            if (start == -1){
+                list= new ArrayList<>();
+                return list;
+            }
+            int end= start;
+            while (start >= 0 && products.get(start).getTimesBought() >= minvalue){
+                start--;
+            }
+            while (end < products.size() && products.get(end).getTimesBought() <= maxvalue){
+                end++;
+            }
+            list= new ArrayList<>(products.subList(start+1 , end));
+            if (orderOfProducts == 0){
+                orderProduct(0, list, 2);
+            }else {
+                orderProduct(1, list ,2);
+            }
+            return list;
+        }
+        list= new ArrayList<>();
+        return list;
+    }
+
+    public ArrayList<Product> searchProductByRangeString(char minvalue, char maxvalue, int orderOfProducts) throws EmptyListException {
+        if (products.isEmpty()){
+            throw new EmptyListException();
+        }
+        ArrayList<Product> list;
+        int start= searchProductByPrefix(minvalue);
+        if (start == -1){
+            list= new ArrayList<>();
+            return list;
+        }
+        int end= start;
+        while (start >= 0 && products.get(start).getName().charAt(0) >= minvalue){
+            start--;
+        }
+        while (end < products.size() && products.get(end).getName().charAt(0) <= maxvalue){
+            end++;
+        }
+        list= new ArrayList<>(products.subList(start+1 , end));
+        if (orderOfProducts == 0){
+            orderProduct(0, list, 1);
+        }else {
+            orderProduct(1, list ,1);
+        }
+        return list;
+    }
+
+    public void orderProduct(int optionOrder, ArrayList<Product> products, int option){
+        //Descendiente
+        if (optionOrder == 0){
+            if (option == 0){
+                Collections.sort(products, (p1, p2)->{
+                    return Double.compare(p2.getPrice() , p1.getPrice());
+                });
+            } else if (option == 1) {
+                Collections.sort(products, (p1, p2)->{
+                    return Integer.compare(p2.getQuantity() , p1.getQuantity());
+                });
+            } else if (option == 2) {
+                Collections.sort(products, (p1 , p2)->{
+                    return Integer.compare(p2.getTimesBought() , p1.getTimesBought());
+                });
+            } else if (option == 3) {
+                Collections.sort(products, (p1 , p2) ->{
+                    return p2.getName().compareTo(p1.getName());
+                });
+            }
+        } else if (optionOrder == 1) {
+            //Ascendente
+            if (option == 0){
+                Collections.sort(products, (p1, p2)->{
+                    return Double.compare(p1.getPrice() , p2.getPrice());
+                });
+            } else if (option == 1) {
+                Collections.sort(products, (p1, p2)->{
+                    return Integer.compare(p1.getQuantity() , p2.getQuantity());
+                });
+            } else if (option == 2) {
+                Collections.sort(products, (p1 , p2)->{
+                    return Integer.compare(p1.getTimesBought() , p2.getTimesBought());
+                });
+            }else if (option == 3) {
+                Collections.sort(products, (p1 , p2) ->{
+                    return p1.getName().compareTo(p2.getName());
+                });
+            }
+        }
+    }
+
+
+
+    public int searchProductByPrefix(char pre){
+        Collections.sort(products, (a , b)->{
+            return a.getName().compareTo(b.getName());
+        });
+        int puntoMedio=0;
+        int inicio= 0;
+        int fin= products.size()-1;
+        while (inicio <= fin){
+            puntoMedio= (inicio + fin)/2;
+            Product value= products.get(puntoMedio);
+            if (value.getName().charAt(0) == pre){
+                return puntoMedio;
+            }else if (value.getName().charAt(0) < pre){
+                inicio = puntoMedio + 1;
+            }else {
+                fin= puntoMedio - 1;
+            }
+
+        }
+        return -1;
+    }
+
+    public int searchProductByQuantity(int quantity) {
+        Collections.sort(products, (a, b) -> {
+            return Integer.compare(a.getQuantity(), b.getQuantity());
+        });
+        int puntoMedio = 0;
+        int inicio = 0;
+        int fin = products.size() - 1;
+        while (inicio <= fin) {
+            puntoMedio = (inicio + fin) / 2;
+            Product value = products.get(puntoMedio);
+            if (value.getQuantity() == quantity) {
+                return puntoMedio;
+            } else if (value.getQuantity() < quantity) {
+                inicio = puntoMedio + 1;
+            } else {
+                fin = puntoMedio - 1;
+            }
+        }
+        return -1;
+    }
+
+
 }
